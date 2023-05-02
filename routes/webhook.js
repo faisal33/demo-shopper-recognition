@@ -37,7 +37,7 @@ const addtotal = asyncHandler(async (req, res) => {
         const shopperReference = req.body?.notificationItems[0]?.NotificationRequestItem?.additionalData ? req.body?.notificationItems[0]?.NotificationRequestItem?.additionalData["recurring.shopperReference"] : null
         const recurringDetailReference = req.body?.notificationItems[0]?.NotificationRequestItem?.additionalData ? req.body?.notificationItems[0]?.NotificationRequestItem?.additionalData["recurring.recurringDetailReference"] : null
         const amount = req.body?.notificationItems[0]?.NotificationRequestItem?.amount?.value / 100 
-        if(eventType == "AUTHORISATION" && success == "true" && amount < 21 && amount > 1 && !recurringDetailReference){
+        if(eventType == "AUTHORISATION" && success == "true" && amount < 21000 && amount > 1 && !recurringDetailReference){
           updateTotal(amount)
           if(shopperReference){
             //updateShopper(shopperReference, amount)
