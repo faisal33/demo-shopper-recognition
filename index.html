@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Adyen Total Donated</title>
+        <link rel="stylesheet" href="/style.css">  
+    </head>
+    <body>
+
+        <div class="confetti">
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+        </div>
+
+        <h1 id="current-total"></h1>
+
+        <p>collectés pour l'association NOC !</p>
+        <!-- <img src="images/Logo_NOC_cmjn copie.png" /> -->
+  
+        <!-- <img src="images/NOC-logo.jpg" /> -->
+
+        <div id="hiddenNum"></div>
+
+
+        <!-- <div id="gif">
+            <img id="imgsrc" src="https://c.tenor.com/wwcY7OhagdsAAAAj/bt21-koya.gif" alt="">
+        </div> -->
+       
+
+    </body> 
+    <script>
+    setInterval(async() => {
+            const total = await fetch('./api/current-total')
+            .then(function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                    return;
+                }
+                response.json().then(function(data) {
+                    let num = parseInt(data["Donated amount"].total.toFixed(2))
+                    let prev = parseInt(document.getElementById("hiddenNum").innerText)
+                    console.log("current", num, typeof num)
+                    console.log('prev', prev, typeof prev)
+                    document.getElementById("hiddenNum").innerText = num
+                    const germanNumber = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(num);
+                    document.getElementById("current-total").innerText = germanNumber
+                    if(isInRange(prev, num)) {
+                        myGreeting(true)
+                        setInterval(()=> {
+                            myGreeting(false)
+                        }, 7000)
+                    } else if (num == 10000) {
+                        document.getElementById("current-total").classList.add('celebrate');
+                        var confettis = document.getElementsByClassName("confetti-piece");
+                        for (const confetti of confettis) {
+                            confetti.classList.add('celebrate');
+                        }
+                    }
+                });
+            })
+            .catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
+        }, 4000); 
+
+        function myGreeting(state){
+            if(state){
+                document.getElementById("current-total").classList.add('celebrate');
+            }
+            else{
+                document.getElementById("current-total").classList.remove('celebrate');
+            }
+        }
+
+        function isInRange(prev, num) {
+            const array = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500]
+            return array.some((number) => {
+                return prev < number && num >= number
+            })
+        }
+
+    </script> 
+</html>
