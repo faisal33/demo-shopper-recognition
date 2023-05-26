@@ -14,8 +14,8 @@ const updateTotal = asyncHandler(async (amount) => {
       const id = "63822f6e91b8e5d989fb0250"
       let currentTotal = await Total.findById(id)
       let newTotal = currentTotal.total + amount
-      if (newTotal > 10000 ) {
-          newTotal = 10000
+      if (newTotal > 1000 ) {
+          newTotal = 1000
       } 
       currentTotal.total = newTotal
       const updatedTotal = await currentTotal.save()
